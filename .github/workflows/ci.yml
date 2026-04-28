@@ -27,7 +27,7 @@ jobs:
         run: pytest tests/ -v
 
       - name: Run pipeline smoke test
-        run: python src.pipeline.py
+        run: python src.pipeline
 
       - name: Validate Parquet output
         run: |
