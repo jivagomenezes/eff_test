@@ -27,9 +27,8 @@ build/
 *.egg-info/
 
 # Study / prep material (not part of the submission)
-preparacao/
+study/
 
 # Scratch files
 files/
-files.zip
 *.zip
