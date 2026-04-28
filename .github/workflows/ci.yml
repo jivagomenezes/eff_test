@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  test-and-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: pytest tests/ -v
+
+      - name: Run pipeline smoke test
+        run: python src/pipeline.py
+
+      - name: Validate Parquet output
+        run: |
+          python -c "
+          import pandas as pd, pathlib
+          files = list(pathlib.Path('output').glob('*.parquet'))
+          assert files, 'No Parquet output files found'
+          df = pd.read_parquet(files[0])
+          assert 'duns' in df.columns, 'Output missing duns column'
+          assert 'parent_duns' in df.columns, 'Output missing parent_duns column'
+          assert len(df) > 0, 'Output Parquet is empty'
+          print(f'Output validation passed: {len(df)} records across {len(files)} file(s)')
+          "

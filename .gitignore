@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.env
+
+# Output data
+output/*.parquet
+output/*.csv
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Study / prep material (not part of the submission)
+preparacao/
+
+# Scratch files
+files/
+files.zip
+*.zip
